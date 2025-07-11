@@ -168,3 +168,4 @@
 /home/ldg4mez/Documents/simple-ecommerce/AuthService/obj/Debug/net8.0/AuthService.genruntimeconfig.cache
 /home/ldg4mez/Documents/simple-ecommerce/AuthService/obj/Debug/net8.0/ref/AuthService.dll
 /home/ldg4mez/Documents/simple-ecommerce/AuthService/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/ldg4mez/Documents/simple-ecommerce/AuthService/obj/Debug/net8.0/AuthService.sourcelink.json

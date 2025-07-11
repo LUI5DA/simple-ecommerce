@@ -1,0 +1,49 @@
+# Build files
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# VS Code settings
+.vscode/
+
+# Secrets and config
+*.env
+*.db
+*.pfx
+
+# Runtime files
+*.pid
+*.pid.lock
+
+# ASP.NET generated files
+Generated_Code/
+*.Publish.xml
+
+# Docker artifacts
+docker-compose.override.yml
+.env
+
+# EF Core migrations (optional to ignore snapshots)
+Migrations/
+
+# Test results
+TestResults/
+coverage/
+
+# .NET artifacts
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# OS generated
+.DS_Store
+Thumbs.db
