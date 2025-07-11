@@ -75,13 +75,33 @@ app.MapControllers();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//Configure the HTTP request pipeline.
+/* if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+ */
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseHttpsRedirection();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+
+    try
+    {
+        db.Database.Migrate(); // Apply pending migrations
+    }
+    catch (Exception ex)
+    {
+        // Log the error and continue
+        Console.WriteLine($"⚠️ Database migration failed: {ex.Message}");
+        // In production, consider using a logger instead of Console.WriteLine
+    }
+}
+
+
 
 app.Run();
