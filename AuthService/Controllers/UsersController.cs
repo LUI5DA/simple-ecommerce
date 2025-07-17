@@ -51,7 +51,9 @@ namespace AuthService.Controllers
         public ActionResult<UserDto> Create(UserCreateDto request)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             var user = new User
             {
