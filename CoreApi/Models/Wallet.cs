@@ -7,6 +7,9 @@ namespace CoreApi.Models
         public Guid Id {get; set; } = Guid.NewGuid();
 
         [Required]
+        public string Name { get; set; }
+
+        [Required]
         public Client Client_Ref { get; set; }
 
         [Required]

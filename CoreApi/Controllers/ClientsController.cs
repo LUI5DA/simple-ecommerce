@@ -42,5 +42,25 @@ namespace CoreApi.Controllers
 
             return Ok(allProducts);
         }
+
+        [HttpGet("{clientId}")]
+        public ActionResult<IEnumerable<Wallet>> getWallets([FromQuery] Guid clientId)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userIdClaim == null || userIdClaim != userId.ToString())
+            {
+                return Forbid();
+            }
+
+            var wallets = _context.Wallets
+                .Where(w = w.Client_Ref.Id == clientId)
+                .ToList();
+
+            return ok(wallets);
+        }
+
+        [HttpPost]
+        
     }
 }
