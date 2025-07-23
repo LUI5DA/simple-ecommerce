@@ -9,7 +9,7 @@ const Register: React.FC = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'Cliente',
+    role: 'Client',
     name: '',
     lastName: '',
     location: '',
@@ -124,7 +124,7 @@ const Register: React.FC = () => {
                     onChange={handleChange as any}
                     required
                   >
-                    <option value="Cliente">Cliente</option>
+                    <option value="Client">Cliente</option>
                     <option value="Vendor">Vendor</option>
                   </Form.Select>
                 </Form.Group>
