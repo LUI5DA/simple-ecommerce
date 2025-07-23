@@ -57,6 +57,19 @@ services:
     networks:
       - ecommerce-network
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - authservice
+      - coreapi
+    networks:
+      - ecommerce-network
+
 networks:
   ecommerce-network:
 

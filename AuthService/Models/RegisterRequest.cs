@@ -16,7 +16,8 @@ namespace AuthService.Models
         public string Password { get; set; }
 
         [Required]
-        public string Role { get; set; } // Cliente, Vendor o Admin
+        [RegularExpression("Client|Vendor|Admin", ErrorMessage = "Role must be Client, Vendor, or Admin")]
+        public string Role { get; set; } 
 
         // Campos adicionales para el perfil
         [Required]

@@ -75,8 +75,14 @@ namespace AuthService.Controllers
             // Verificar si el usuario ya existe
             if (_context.Users.Any(u => u.Email == request.Email))
             {
-                return BadRequest("El correo electrónico ya está registrado");
+                return BadRequest("Emaial already exists");
             }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
 
             // Crear el nuevo usuario
             var user = new User
@@ -96,7 +102,7 @@ namespace AuthService.Controllers
                 var httpClient = _httpClientFactory.CreateClient();
                 var coreApiUrl = _configuration["ServiceUrls:CoreApi"];
                 
-                if (request.Role == "Cliente")
+                if (request.Role == "Client")
                 {
                     var clientData = new
                     {
