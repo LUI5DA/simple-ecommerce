@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace CoreApi
+namespace CoreApi.Models
 {
     public class Tag
     {

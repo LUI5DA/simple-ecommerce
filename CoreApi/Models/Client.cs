@@ -4,8 +4,7 @@ namespace CoreApi.Models
 {
     public class Client
     {
-
-        public Guid UserId { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
         public string Location { get; set; } = string.Empty;
@@ -23,5 +22,7 @@ namespace CoreApi.Models
 
         [Required]
         public string LasName { get; set; } = string.Empty;
+        
+        public bool IsBanned { get; set; } = false;
     }
 }

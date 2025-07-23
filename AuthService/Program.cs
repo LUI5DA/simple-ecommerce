@@ -50,6 +50,12 @@ builder.Services.AddDbContext<AuthDbContext>(options =>
 
 builder.Services.AddControllers();
 
+// Registrar HttpClientFactory
+builder.Services.AddHttpClient();
+
+// Configurar URL del CoreApi
+builder.Configuration["ServiceUrls:CoreApi"] = builder.Configuration["ServiceUrls:CoreApi"] ?? "http://coreapi:8080";
+
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
 builder.Services.AddSingleton(jwtSettings);
 

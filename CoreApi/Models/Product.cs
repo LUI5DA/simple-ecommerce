@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace CoreApi.Models{
+namespace CoreApi.Models
+{
     public class Product
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-
 
         [Required]
         public string Name {get; set; } = string.Empty;
@@ -14,5 +14,8 @@ namespace CoreApi.Models{
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Price must be greater than 0.")]
         public double Price { get; set; } = 1;
+        
+        [Required]
+        public Guid Vendor_Id { get; set; }
     }
 }

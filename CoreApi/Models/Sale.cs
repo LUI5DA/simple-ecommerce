@@ -10,7 +10,7 @@ namespace CoreApi.Models
         public Product Product_Ref { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage("The ammount of products must be valid"))]
+        [Range(1, int.MaxValue, ErrorMessage = "The amount of products must be valid")]
         public int Ammount { get; set; } = 1;
 
         [Required]

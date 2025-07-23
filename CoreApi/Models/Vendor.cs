@@ -4,7 +4,7 @@ namespace CoreApi.Models
 {
     public class Vendor
     {
-        public Guid UserId { get; set; } 
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
         public string Location { get; set; } = string.Empty;
@@ -19,5 +19,9 @@ namespace CoreApi.Models
 
         [Required]
         public string Name { get; set; } = string.Empty;
+        
+        public bool IsApproved { get; set; } = false;
+        
+        public bool IsBanned { get; set; } = false;
     }
 }
