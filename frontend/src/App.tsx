@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 import PrivateRoute from './components/PrivateRoute';
 
 // Layouts
@@ -11,6 +12,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Cart from './pages/Cart';
 import NotFound from './pages/NotFound';
 
 // Client Pages
@@ -32,14 +34,16 @@ import AdminTags from './pages/admin/Tags';
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+      <CartProvider>
+        <Router>
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/cart" element={<PrivateRoute role="Client"><Cart /></PrivateRoute>} />
               
               {/* Client Routes */}
               <Route path="/client" element={<PrivateRoute role="Client"><ClientDashboard /></PrivateRoute>} />
@@ -64,6 +68,7 @@ function App() {
           <Footer />
         </div>
       </Router>
+      </CartProvider>
     </AuthProvider>
   );
 }

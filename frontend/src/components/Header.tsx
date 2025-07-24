@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
 
 const Header: React.FC = () => {
   const { isAuthenticated, user, logout } = useContext(AuthContext);
+  const { cartCount } = useContext(CartContext);
   const navigate = useNavigate();
-  
-  console.log('Header - isAuthenticated:', isAuthenticated);
-  console.log('Header - user:', user);
 
   const handleLogout = () => {
     logout();
@@ -26,14 +25,21 @@ const Header: React.FC = () => {
               
               {isAuthenticated ? (
                 <>
-                  {/* Debug info */}
-                  <li className="text-yellow-300 text-sm">Role: {user?.role || 'undefined'}</li>
-                  
                   {user?.role === 'Client' && (
                     <>
                       <li><Link to="/client" className="hover:text-gray-300">Dashboard</Link></li>
                       <li><Link to="/client/wallets" className="hover:text-gray-300">Wallets</Link></li>
                       <li><Link to="/client/purchases" className="hover:text-gray-300">Purchases</Link></li>
+                      <li>
+                        <Link to="/cart" className="hover:text-gray-300 relative">
+                          Cart
+                          {cartCount > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                              {cartCount}
+                            </span>
+                          )}
+                        </Link>
+                      </li>
                     </>
                   )}
                   

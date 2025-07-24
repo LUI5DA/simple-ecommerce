@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
 
 interface ProductCardProps {
   product: {
@@ -10,16 +11,18 @@ interface ProductCardProps {
     price: number;
     tags?: { id: string; name: string }[];
   };
-  onAddToCart?: (productId: string) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { isAuthenticated, user } = useContext(AuthContext);
+  const { addToCart } = useContext(CartContext);
   
   const handleAddToCart = () => {
-    if (onAddToCart) {
-      onAddToCart(product.id);
-    }
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price
+    });
   };
 
   return (
@@ -55,7 +58,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           View Details
         </Link>
         
-        {isAuthenticated && user?.role === 'Client' && onAddToCart && (
+        {isAuthenticated && user?.role === 'Client' && (
           <button 
             onClick={handleAddToCart}
             className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm"

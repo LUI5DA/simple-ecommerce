@@ -49,7 +49,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }).join(''));
 
           const decodedToken = JSON.parse(jsonPayload);
-          console.log('Decoded token:', decodedToken);
           
           const userData = {
             id: decodedToken.nameid || decodedToken.sub,
@@ -57,8 +56,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             email: decodedToken.email,
             role: decodedToken.role || decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
           };
-          
-          console.log('User data:', userData);
           setUser(userData);
           setIsAuthenticated(true);
         } catch (error) {

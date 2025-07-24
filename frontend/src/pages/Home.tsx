@@ -83,28 +83,7 @@ const Home: React.FC = () => {
     }
   };
 
-  // Cart functionality
-  const addToCart = (productId: string) => {
-    // Get existing cart from localStorage or initialize empty array
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    
-    // Check if product already in cart
-    const existingItem = cart.find((item: any) => item.productId === productId);
-    
-    if (existingItem) {
-      // Increment quantity if already in cart
-      existingItem.quantity += 1;
-    } else {
-      // Add new item to cart
-      cart.push({ productId, quantity: 1 });
-    }
-    
-    // Save updated cart to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-    
-    // Notify user
-    alert('Product added to cart!');
-  };
+
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -159,8 +138,7 @@ const Home: React.FC = () => {
               {products.map((product) => (
                 <ProductCard 
                   key={product.id} 
-                  product={product} 
-                  onAddToCart={addToCart} 
+                  product={product}
                 />
               ))}
             </div>
