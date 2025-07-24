@@ -5,6 +5,9 @@ import { AuthContext } from '../context/AuthContext';
 const Header: React.FC = () => {
   const { isAuthenticated, user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  
+  console.log('Header - isAuthenticated:', isAuthenticated);
+  console.log('Header - user:', user);
 
   const handleLogout = () => {
     logout();
@@ -23,6 +26,9 @@ const Header: React.FC = () => {
               
               {isAuthenticated ? (
                 <>
+                  {/* Debug info */}
+                  <li className="text-yellow-300 text-sm">Role: {user?.role || 'undefined'}</li>
+                  
                   {user?.role === 'Client' && (
                     <>
                       <li><Link to="/client" className="hover:text-gray-300">Dashboard</Link></li>

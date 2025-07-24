@@ -49,13 +49,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }).join(''));
 
           const decodedToken = JSON.parse(jsonPayload);
+          console.log('Decoded token:', decodedToken);
           
-          setUser({
-            id: decodedToken.nameid,
-            username: decodedToken.unique_name,
+          const userData = {
+            id: decodedToken.nameid || decodedToken.sub,
+            username: decodedToken.unique_name || decodedToken.name,
             email: decodedToken.email,
-            role: decodedToken.role
-          });
+            role: decodedToken.role || decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+          };
+          
+          console.log('User data:', userData);
+          setUser(userData);
           setIsAuthenticated(true);
         } catch (error) {
           localStorage.removeItem('token');
