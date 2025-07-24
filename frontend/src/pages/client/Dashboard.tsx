@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -7,60 +6,45 @@ const ClientDashboard: React.FC = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <Container className="my-5">
-      <h1 className="mb-4">Client Dashboard</h1>
-      <p className="lead">Welcome back, {user?.username}!</p>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-4">Client Dashboard</h1>
+      <p className="text-lg mb-8">Welcome back, {user?.username}!</p>
       
-      <Row className="mt-5">
-        <Col md={4} className="mb-4">
-          <Card className="h-100">
-            <Card.Body>
-              <Card.Title>My Wallets</Card.Title>
-              <Card.Text>
-                Manage your wallets and add funds to make purchases.
-              </Card.Text>
-            </Card.Body>
-            <Card.Footer>
-              <Button as={Link} to="/client/wallets" variant="primary">
-                View Wallets
-              </Button>
-            </Card.Footer>
-          </Card>
-        </Col>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-semibold mb-2">My Wallets</h2>
+          <p className="text-gray-600 mb-4">Manage your wallets and add funds to make purchases.</p>
+          <Link 
+            to="/client/wallets" 
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          >
+            View Wallets
+          </Link>
+        </div>
         
-        <Col md={4} className="mb-4">
-          <Card className="h-100">
-            <Card.Body>
-              <Card.Title>Purchase History</Card.Title>
-              <Card.Text>
-                View your past purchases and order details.
-              </Card.Text>
-            </Card.Body>
-            <Card.Footer>
-              <Button as={Link} to="/client/purchases" variant="primary">
-                View Purchases
-              </Button>
-            </Card.Footer>
-          </Card>
-        </Col>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-semibold mb-2">Purchase History</h2>
+          <p className="text-gray-600 mb-4">View your past purchases and order details.</p>
+          <Link 
+            to="/client/purchases" 
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          >
+            View Purchases
+          </Link>
+        </div>
         
-        <Col md={4} className="mb-4">
-          <Card className="h-100">
-            <Card.Body>
-              <Card.Title>Browse Products</Card.Title>
-              <Card.Text>
-                Explore our catalog and find products to purchase.
-              </Card.Text>
-            </Card.Body>
-            <Card.Footer>
-              <Button as={Link} to="/" variant="primary">
-                Shop Now
-              </Button>
-            </Card.Footer>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-semibold mb-2">Browse Products</h2>
+          <p className="text-gray-600 mb-4">Explore our catalog and find products to purchase.</p>
+          <Link 
+            to="/" 
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          >
+            Shop Now
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
@@ -9,6 +8,7 @@ interface ProductCardProps {
     name: string;
     description: string;
     price: number;
+    tags?: { id: string; name: string }[];
   };
   onAddToCart?: (productId: string) => void;
 }
@@ -23,23 +23,48 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   };
 
   return (
-    <Card className="h-100">
-      <Card.Body>
-        <Card.Title>{product.name}</Card.Title>
-        <Card.Text className="text-muted">${product.price.toFixed(2)}</Card.Text>
-        <Card.Text>{product.description.substring(0, 100)}...</Card.Text>
-      </Card.Body>
-      <Card.Footer className="d-flex justify-content-between">
-        <Link to={`/product/${product.id}`} className="btn btn-primary">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="p-4">
+        <h3 className="text-lg font-semibold">{product.name}</h3>
+        <p className="text-gray-600 text-sm mt-1">${product.price.toFixed(2)}</p>
+        <p className="text-gray-700 mt-2 text-sm">
+          {product.description.length > 100 
+            ? `${product.description.substring(0, 100)}...` 
+            : product.description}
+        </p>
+        
+        {product.tags && product.tags.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1">
+            {product.tags.map(tag => (
+              <span 
+                key={tag.id} 
+                className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded"
+              >
+                {tag.name}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+      
+      <div className="p-4 bg-gray-50 flex justify-between">
+        <Link 
+          to={`/product/${product.id}`}
+          className="text-blue-600 hover:text-blue-800"
+        >
           View Details
         </Link>
-        {isAuthenticated && user?.role === 'Cliente' && onAddToCart && (
-          <Button variant="success" onClick={handleAddToCart}>
+        
+        {isAuthenticated && user?.role === 'Client' && onAddToCart && (
+          <button 
+            onClick={handleAddToCart}
+            className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm"
+          >
             Add to Cart
-          </Button>
+          </button>
         )}
-      </Card.Footer>
-    </Card>
+      </div>
+    </div>
   );
 };
 

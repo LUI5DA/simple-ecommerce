@@ -75,9 +75,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
     {
-        builder.AllowAnyOrigin()
+        builder.SetIsOriginAllowed(_ => true) // Permite cualquier origen
                .AllowAnyMethod()
-               .AllowAnyHeader();
+               .AllowAnyHeader()
+               .AllowCredentials(); // Permite credenciales (cookies, auth headers)
     });
 });
     
@@ -101,10 +102,10 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty; // Para que Swagger UI sea la página de inicio
 });
 
-app.UseHttpsRedirection();
-
-// Use CORS
+// Use CORS before other middleware
 app.UseCors("AllowAll");
+
+app.UseHttpsRedirection();
 
 // Use Authentication and Authorization
 app.UseAuthentication();

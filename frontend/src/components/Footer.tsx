@@ -1,12 +1,11 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-dark text-light py-4 mt-5">
-      <Container className="text-center">
+    <footer className="bg-gray-800 text-white py-6 mt-10">
+      <div className="container mx-auto px-4 text-center">
         <p>&copy; {new Date().getFullYear()} Simple E-Commerce. All rights reserved.</p>
-      </Container>
+      </div>
     </footer>
   );
 };

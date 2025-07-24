@@ -41,8 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           // Configure axios defaults
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           
-          // We don't need to fetch user data as it's stored in the token
-          // Just decode the JWT to get user info
+          // Decode the JWT to get user info
           const base64Url = token.split('.')[1];
           const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
           const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
@@ -72,7 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     try {
-      const res = await axios.post('http://localhost:8081/api/auth/login', { email, password });
+      const res = await axios.post('/api/auth/login', { email, password });
       const { token, user } = res.data;
       
       localStorage.setItem('token', token);
@@ -88,7 +87,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const register = async (userData: any) => {
     try {
-      const res = await axios.post('http://localhost:8081/api/auth/register', userData);
+      const res = await axios.post('/api/auth/register', userData);
       const { token, user } = res.data;
       
       localStorage.setItem('token', token);

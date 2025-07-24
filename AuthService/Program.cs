@@ -56,6 +56,18 @@ builder.Services.AddHttpClient();
 // Configurar URL del CoreApi
 builder.Configuration["ServiceUrls:CoreApi"] = builder.Configuration["ServiceUrls:CoreApi"] ?? "http://coreapi:8080";
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.SetIsOriginAllowed(_ => true) // Permite cualquier origen
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials(); // Permite credenciales (cookies, auth headers)
+    });
+});
+
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
 builder.Services.AddSingleton(jwtSettings);
 
@@ -76,6 +88,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+
+// Use CORS before other middleware
+app.UseCors("AllowAll");
 
 app.MapControllers();
 app.UseAuthentication();
