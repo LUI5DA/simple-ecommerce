@@ -59,6 +59,57 @@ namespace CoreApi.Controllers
 
             return Ok(vendor);
         }
+
+        // Obtener lista de vendors (para admin)
+        [HttpGet("vendors")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetVendors()
+        {
+            var vendors = _context.Vendors.ToList();
+            return Ok(vendors);
+        }
+
+        // Obtener vendor específico (para verificación interna)
+        [HttpGet("vendors/{id}")]
+        [AllowAnonymous] // Para comunicación entre servicios
+        public IActionResult GetVendor(Guid id)
+        {
+            var vendor = _context.Vendors.FirstOrDefault(v => v.Id == id);
+            if (vendor == null)
+                return NotFound();
+
+            return Ok(vendor);
+        }
+
+        // Aprobar vendor
+        [HttpPost("vendors/{id}/approve")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ApproveVendor(Guid id)
+        {
+            var vendor = _context.Vendors.FirstOrDefault(v => v.Id == id);
+            if (vendor == null)
+                return NotFound();
+
+            vendor.IsApproved = true;
+            await _context.SaveChangesAsync();
+
+            return Ok(vendor);
+        }
+
+        // Rechazar vendor
+        [HttpPost("vendors/{id}/reject")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RejectVendor(Guid id)
+        {
+            var vendor = _context.Vendors.FirstOrDefault(v => v.Id == id);
+            if (vendor == null)
+                return NotFound();
+
+            vendor.IsApproved = false;
+            await _context.SaveChangesAsync();
+
+            return Ok(vendor);
+        }
     }
 
     // DTOs para la comunicación entre servicios

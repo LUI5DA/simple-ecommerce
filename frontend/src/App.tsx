@@ -13,6 +13,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import NotFound from './pages/NotFound';
 
 // Client Pages
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/cart" element={<PrivateRoute role="Client"><Cart /></PrivateRoute>} />
+                <Route path="/checkout" element={<PrivateRoute role="Client"><Checkout /></PrivateRoute>} />
               
               {/* Client Routes */}
               <Route path="/client" element={<PrivateRoute role="Client"><ClientDashboard /></PrivateRoute>} />

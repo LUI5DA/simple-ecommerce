@@ -34,13 +34,44 @@ namespace AuthService.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Login(LoginRequest request)
+        public async Task<IActionResult> Login(LoginRequest request)
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == request.Email);
 
             if(user == null || !PasswordHasher.Verify(request.Password, user.PasswordHash))
             {
                 return Unauthorized();
+            }
+
+            // Si es un vendor, verificar que esté aprobado
+            if (user.Role == "Vendor")
+            {
+                try
+                {
+                    var httpClient = _httpClientFactory.CreateClient();
+                    var coreApiUrl = _configuration["ServiceUrls:CoreApi"];
+                    
+                    var response = await httpClient.GetAsync($"{coreApiUrl}/api/admin/vendors/{user.Id}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var vendorJson = await response.Content.ReadAsStringAsync();
+                        using var document = System.Text.Json.JsonDocument.Parse(vendorJson);
+                        
+                        // Si el vendor no está aprobado, denegar acceso
+                        if (!document.RootElement.GetProperty("isApproved").GetBoolean())
+                        {
+                            return Unauthorized(new { message = "Vendor account is pending approval" });
+                        }
+                    }
+                    else
+                    {
+                        return Unauthorized(new { message = "Vendor not found in system" });
+                    }
+                }
+                catch (Exception)
+                {
+                    return Unauthorized(new { message = "Unable to verify vendor status" });
+                }
             }
 
             var claims = new[]
@@ -131,28 +162,13 @@ namespace AuthService.Controllers
                     await httpClient.PostAsJsonAsync($"{coreApiUrl}/api/admin/vendors", vendorData);
                 }
                 
-                // Generar token para el nuevo usuario
-                var claims = new[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.Role)
-                };
-
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-                var token = new JwtSecurityToken(
-                    issuer: _jwtSettings.Issuer,
-                    audience: _jwtSettings.Audience,
-                    claims: claims,
-                    expires: DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
-                    signingCredentials: creds
-                );
-
+                // Retornar mensaje de éxito sin token
+                var message = request.Role == "Vendor" 
+                    ? "Registration successful! Your vendor account is pending approval. You will be able to login once approved."
+                    : "Registration successful! You can now login with your credentials.";
+                    
                 return Ok(new {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    message = message,
                     user = new { user.Id, user.Username, user.Email, user.Role }
                 });
             }

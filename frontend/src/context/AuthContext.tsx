@@ -14,7 +14,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (userData: any) => Promise<void>;
+  register: (userData: any) => Promise<any>;
   logout: () => void;
 }
 
@@ -24,7 +24,7 @@ export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   loading: true,
   login: async () => {},
-  register: async () => {},
+  register: async () => { return {}; },
   logout: () => {},
 });
 
@@ -89,14 +89,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const register = async (userData: any) => {
     try {
       const res = await axios.post('/api/auth/register', userData);
-      const { token, user } = res.data;
-      
-      localStorage.setItem('token', token);
-      setToken(token);
-      setUser(user);
-      setIsAuthenticated(true);
-      
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      // El registro ya no retorna token, solo mensaje de éxito
+      return res.data;
     } catch (error) {
       throw error;
     }

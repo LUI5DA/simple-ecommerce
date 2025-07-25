@@ -39,8 +39,13 @@ const Register: React.FC = () => {
     setLoading(true);
     
     try {
-      await register(formData);
-      navigate('/');
+      const response = await register(formData);
+      
+      // Mostrar mensaje de éxito
+      alert(response.message);
+      
+      // Redirigir al login
+      navigate('/login');
     } catch (err: any) {
       setError(err.response?.data || 'Failed to register. Please try again.');
     } finally {
