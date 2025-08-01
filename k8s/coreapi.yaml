@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coreapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coreapi
+  template:
+    metadata:
+      labels:
+        app: coreapi
+    spec:
+      containers:
+        - name: coreapi
+          image: lui5da/ecommerce-coreapi:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: ConnectionStrings__DefaultConnection
+              value: "Server=ecommerce-db;Database=CoreDb;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True;"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coreapi
+spec:
+  selector:
+    app: coreapi
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP
