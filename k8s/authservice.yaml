@@ -12,6 +12,10 @@ spec:
       labels:
         app: authservice
     spec:
+      initContainers:
+        - name: wait-for-db
+          image: busybox
+          command: ['sh', '-c', 'until nc -z auth-db 1433; do echo waiting for db; sleep 2; done;']
       containers:
         - name: authservice
           image: lui5da/ecommerce-authservice:latest

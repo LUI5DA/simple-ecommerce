@@ -12,6 +12,10 @@ spec:
       labels:
         app: coreapi
     spec:
+      initContainers:
+        - name: wait-for-db
+          image: busybox
+          command: ['sh', '-c', 'until nc -z ecommerce-db 1433; do echo waiting for db; sleep 2; done;']
       containers:
         - name: coreapi
           image: lui5da/ecommerce-coreapi:latest

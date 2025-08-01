@@ -1,8 +1,8 @@
 // src/pages/LoginRegister/RegisterPage.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-const authService = 'http://localhost:8081/api/Auth';
-const coreApi = 'http://localhost:8080/api';
+const API_BASE = "https://ecommerce.proyectoredes.site";
+const authService = `${API_BASE}/Auth`;
 
 const RegisterPage = () => {
   const navigate = useNavigate();

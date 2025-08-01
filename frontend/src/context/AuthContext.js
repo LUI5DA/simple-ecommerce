@@ -3,8 +3,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import {jwtDecode} from 'jwt-decode';
 
 const AuthContext = createContext();
-const authService = 'http://localhost:8081/api/Auth';
-const coreApi = 'http://localhost:8080/api';
+const API_BASE = "https://ecommerce.proyectoredes.site";
+const authService = `${API_BASE}/Auth`;
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
