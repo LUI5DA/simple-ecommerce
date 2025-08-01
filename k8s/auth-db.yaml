@@ -33,6 +33,10 @@ spec:
       labels:
         app: auth-db
     spec:
+      securityContext:        
+        runAsUser: 10001
+        runAsGroup: 0
+        fsGroup: 10001
       containers:
         - name: auth-db
           image: mcr.microsoft.com/mssql/server:2022-latest
