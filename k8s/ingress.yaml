@@ -15,7 +15,7 @@ spec:
     - host: ecommerce.proyectoredes.site
       http:
         paths:
-          - path: /api/Auth
+          - path: /Auth(/|$)(.*)
             pathType: Prefix
             backend:
               service:
@@ -23,7 +23,7 @@ spec:
                 port:
                   number: 8080
 
-          - path: /api
+          - path: /api(/|$)(.*)
             pathType: Prefix
             backend:
               service:
@@ -31,7 +31,7 @@ spec:
                 port:
                   number: 8080
 
-          - path: /
+          - path: /(.*)
             pathType: Prefix
             backend:
               service:
